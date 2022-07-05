@@ -1,0 +1,155 @@
+
+
+
+
+CREATE TABLE  `files` (
+  `id_file` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(500) NOT NULL,
+  `size` varchar(30) NOT NULL,
+  `ruta` varchar(600) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `nit` varchar(20) NOT NULL,
+  PRIMARY KEY (`id_file`),
+  KEY `idUsuario` (`idUsuario`),
+  KEY `idnit` (`nit`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+
+
+
+
+CREATE TABLE  `hojadevida` (
+  `fecha` date DEFAULT NULL,
+  `programa` varchar(30) DEFAULT NULL,
+  `primerapellido` varchar(30) DEFAULT NULL,
+  `segundoapellido` varchar(30) DEFAULT NULL,
+  `nombres` varchar(30) DEFAULT NULL,
+  `cedula` varchar(12) NOT NULL,
+  `fechaNacimineto` varchar(30) DEFAULT NULL,
+  `estadoCivil` varchar(20) DEFAULT NULL,
+  `direccion` varchar(30) DEFAULT NULL,
+  `telefono` varchar(10) DEFAULT NULL,
+  `eps` varchar(30) DEFAULT NULL,
+  `correoElectronico` varchar(60) DEFAULT NULL,
+  `ciudad` varchar(30) DEFAULT NULL,
+  `instituto_01` varchar(50) DEFAULT NULL,
+  `titulo_01` varchar(50) DEFAULT NULL,
+  `fecha_01` date DEFAULT NULL,
+  `instituto_02` varchar(50) DEFAULT NULL,
+  `titulo_02` varchar(50) DEFAULT NULL,
+  `fecha_02` date DEFAULT NULL,
+  `ingles_01` varchar(2) DEFAULT NULL,
+  `ingles_02` varchar(2) DEFAULT NULL,
+  `ingles_03` varchar(2) DEFAULT NULL,
+  `ingles_04` varchar(2) DEFAULT NULL,
+  `aleman_01` varchar(2) DEFAULT NULL,
+  `aleman_02` varchar(2) DEFAULT NULL,
+  `aleman_03` varchar(2) DEFAULT NULL,
+  `aleman_04` varchar(2) DEFAULT NULL,
+  `frances_01` varchar(2) DEFAULT NULL,
+  `frances_02` varchar(2) DEFAULT NULL,
+  `frances_03` varchar(2) DEFAULT NULL,
+  `frances_04` varchar(2) DEFAULT NULL,
+  `otros_01` varchar(2) DEFAULT NULL,
+  `otros_02` varchar(2) DEFAULT NULL,
+  `otros_03` varchar(2) DEFAULT NULL,
+  `otros_04` varchar(2) DEFAULT NULL,
+  `apartado_03` varchar(1000) DEFAULT NULL,
+  `apartado_04` varchar(1000) DEFAULT NULL,
+  `apartado_05` varchar(1000) DEFAULT NULL,
+  `apartado_06` varchar(1000) DEFAULT NULL,
+  `entidad_01` varchar(100) DEFAULT NULL,
+  `cargo_01` varchar(80) DEFAULT NULL,
+  `funcion_01` text,
+  `duracion_01` varchar(200) DEFAULT NULL,
+  `entidad_02` varchar(100) DEFAULT NULL,
+  `cargo_02` varchar(80) DEFAULT NULL,
+  `funcion_02` text,
+  `duracion_02` varchar(200) DEFAULT NULL,
+  `apartado_08` varchar(1000) DEFAULT NULL,
+  `idUsuario` int(11) NOT NULL,
+  PRIMARY KEY (`cedula`),
+  KEY `idUsuario` (`idUsuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+CREATE TABLE  `notas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `n1` varchar(4) DEFAULT NULL,
+  `n2` varchar(4) DEFAULT NULL,
+  `n3` varchar(4) DEFAULT NULL,
+  `f1` varchar(1000) DEFAULT NULL,
+  `f2` varchar(1000) DEFAULT NULL,
+  `f3` varchar(1000) DEFAULT NULL,
+  `idSolicitud` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idSolicitud` (`idSolicitud`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE  `solicitud` (
+  `idnit` int(11) NOT NULL AUTO_INCREMENT,
+  `nit` varchar(20) NOT NULL,
+  `nombre` varchar(40) NOT NULL,
+  `ciudad` varchar(30) NOT NULL,
+  `Direccion` varchar(60) NOT NULL,
+  `telefono` varchar(10) DEFAULT NULL,
+  `sitioweb` varchar(100) NOT NULL,
+  `actividades` varchar(1000) NOT NULL,
+  `nombrecontacto` varchar(40) NOT NULL,
+  `cargo` varchar(40) NOT NULL,
+  `celular` varchar(10) NOT NULL,
+  `correo` varchar(50) NOT NULL,
+  `programa` varchar(70) NOT NULL,
+  `tipopractica` varchar(70) NOT NULL,
+  `funciones` varchar(1000) NOT NULL,
+  `remuneracion` varchar(30) NOT NULL,
+  `valor` varchar(20) DEFAULT NULL,
+  `observaciones` varchar(1000) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `estado` varchar(30) DEFAULT NULL,
+  `fecha1` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idnit`),
+  KEY `idUsuario` (`idUsuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+
+
+
+
+CREATE TABLE  `usuarios` (
+  `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(40) DEFAULT NULL,
+  `correo` varchar(60) DEFAULT NULL,
+  `clave` varchar(300) DEFAULT NULL,
+  `rol` varchar(20) DEFAULT NULL,
+  `estado` varchar(20) DEFAULT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idUsuario`),
+  UNIQUE KEY `usuario` (`usuario`),
+  UNIQUE KEY `correo` (`correo`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+
+
+
+INSERT INTO `usuarios` (`idUsuario`, `usuario`, `correo`, `clave`, `rol`, `estado`, `fecha`) VALUES
+(28, 'admin', 'admin@unicesar.edu.co', 'e10adc3949ba59abbe56e057f20f883e', 'Administrador', 'Activo', '2020-12-13 13:17:36');
+
+
+ALTER TABLE `files`
+  ADD CONSTRAINT `files_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`);
+
+
+ALTER TABLE `hojadevida`
+  ADD CONSTRAINT `hojadevida_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`);
+
+
+ALTER TABLE `notas`
+  ADD CONSTRAINT `notas_ibfk_1` FOREIGN KEY (`idSolicitud`) REFERENCES `solicitud` (`idnit`);
+
+
+ALTER TABLE `solicitud`
+  ADD CONSTRAINT `solicitud_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`);
+COMMIT;
+
+
